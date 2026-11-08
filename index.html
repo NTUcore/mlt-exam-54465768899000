@@ -10,13 +10,11 @@
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
-
 <!-- Firebase SDKs -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, addDoc, updateDoc, deleteDoc, getDocs, where, serverTimestamp, orderBy } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { getAuth, signInAnonymously, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyDHbPz_njjhJ5tRR45G5omH0mXztdb98PU",
   authDomain: "mcq0-91a9b.firebaseapp.com",
@@ -29,15 +27,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
 setPersistence(auth, browserLocalPersistence);
-
 window.FB = { db, auth, doc, setDoc, getDoc, collection, query, onSnapshot, addDoc, updateDoc, deleteDoc, getDocs, where, signInAnonymously, onAuthStateChanged, serverTimestamp, orderBy };
 </script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap');
-
 :root {
 --bg-main: radial-gradient(circle at top right, #1e293b 0%, #020617 60%);
 --card-bg: rgba(10, 15, 29, 0.8);
@@ -51,7 +45,6 @@ window.FB = { db, auth, doc, setDoc, getDoc, collection, query, onSnapshot, addD
 --glow-red: rgba(153, 27, 27, 0.4);
 --header-bg: rgba(15, 23, 42, 0.6);
 }
-
 [data-theme='light'] {
 --bg-main: radial-gradient(circle at top right, #f8fafc 0%, #e2e8f0 60%);
 --card-bg: rgba(255, 255, 255, 0.9);
@@ -65,7 +58,6 @@ window.FB = { db, auth, doc, setDoc, getDoc, collection, query, onSnapshot, addD
 --glow-red: rgba(220, 38, 38, 0.2);
 --header-bg: rgba(255, 255, 255, 0.8);
 }
-
 body {
 font-family: 'Noto Sans Arabic', 'Cairo', sans-serif;
 background: var(--bg-main);
@@ -74,14 +66,12 @@ margin: 0;
 overflow-x: hidden;
 transition: background 0.05s ease, color 0.05s ease;
 }
-
 .card-glow {
 background: var(--card-bg);
 border: 1px solid rgba(153, 27, 27, 0.1);
 backdrop-filter: blur(10px);
 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
-
 .bubble-sheet-container {
 background-color: white !important;
 color: #1a1a1a !important;
@@ -90,7 +80,6 @@ padding: 2.5rem;
 box-shadow: 0 10px 40px rgba(0,0,0,0.15);
 border: 2px solid #e2e8f0;
 }
-
 .bubble {
 width: 32px;
 height: 32px;
@@ -107,14 +96,12 @@ transition: transform 0.05s ease, background-color 0.05s ease;
 color: #2d3748;
 background: white;
 }
-
 .bubble.active {
 background-color: #000000 !important;
 border-color: #000000 !important;
 color: white !important;
 transform: scale(1.05);
 }
-
 .bubble-label {
 font-size: 10px;
 color: #4a5568;
@@ -122,7 +109,6 @@ margin-bottom: 2px;
 text-align: center;
 font-weight: bold;
 }
-
 .omr-header {
 border-bottom: 3px solid #000;
 margin-bottom: 2rem;
@@ -135,7 +121,6 @@ font-family: sans-serif;
 font-size: 12px;
 color: #000;
 }
-
 .input-formal { background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-main); }
 .animate-fade { animation: fadeIn 0.1s ease-out forwards; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
@@ -143,7 +128,6 @@ color: #000;
 .rank-silver { background: linear-gradient(135deg, #e2e8f0, #94a3b8); color: #000 !important; font-weight: 800; }
 .rank-number { background: #000; color: #fff !important; }
 .timer-bar { height: 4px; background: #10b981; transition: width 1s linear; }
-
 .sun-toggle {
 display: flex;
 align-items: center;
@@ -156,7 +140,6 @@ border: 1px solid var(--input-border);
 cursor: pointer;
 z-index: 50;
 }
-
 .notification-toast {
 position: fixed;
 bottom: 20px;
@@ -173,14 +156,36 @@ animation: slideIn 0.3s ease-out;
 </style>
 </head>
 <body>
-
 <div id="root"></div>
-
 <script type="text/babel">
-const { useState, useEffect, useMemo, useCallback, useRef } = React;
-
+const { useState, useEffect, useMemo, useCallback, useRef, Component } = React;
 const _AK = "c29uIG9mIGFiZA==";
 const _PK = "QVJBU1NfMjMxMDIz";
+
+// ==================== معالج النظام المتطور للثبات والرزانة 💪 🦸‍♂️ ====================
+class EngineResilienceGuard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+    static getDerivedStateFromError() {
+        return { hasError: true };
+    }
+    componentDidCatch(error, errorInfo) {
+        console.warn("Resilience System Auto-Recovered:", error, errorInfo);
+    }
+    render() {
+        if (this.state.hasError) {
+            return (
+                <div className="p-8 text-center bg-red-950/40 border border-red-800 rounded-3xl m-6">
+                    <h3 className="text-xl font-bold text-red-400 mb-2">تم رصد استثناء برمجتي - تم استعادة الثبات بنجاح 💪</h3>
+                    <button onClick={() => { this.setState({ hasError: false }); window.location.reload(); }} className="px-6 py-2 bg-red-800 text-white rounded-xl font-bold">إعادة التنشيط</button>
+                </div>
+            );
+        }
+        return this.props.children;
+    }
+}
 
 // دالة آمنة للتعامل مع localStorage
 const safeStorage = {
@@ -194,58 +199,46 @@ const safeStorage = {
     setItem: (key, value) => {
         try {
             localStorage.setItem(key, value);
-        } catch (e) {
-            // localStorage محظور أو غير متاح
-        }
+        } catch (e) {}
     },
     removeItem: (key) => {
         try {
             localStorage.removeItem(key);
-        } catch (e) {
-            // localStorage محظور أو غير متاح
-        }
+        } catch (e) {}
     }
 };
 
-// نظام الصوت المطور - تم النقل إلى داخل دالة
+// نظام الصوت المطور
 let audioCtx = null;
-
 const getAudioContext = () => {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
     return audioCtx;
 };
-
 const playSound = (freq, duration, type = 'sine', volume = 0.1) => {
-    const ctx = getAudioContext();
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(freq, ctx.currentTime);
-    gainNode.gain.setValueAtTime(volume, ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
-    oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
-    oscillator.start();
-    oscillator.stop(ctx.currentTime + duration);
+    try {
+        const ctx = getAudioContext();
+        const oscillator = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(freq, ctx.currentTime);
+        gainNode.gain.setValueAtTime(volume, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + duration);
+    } catch (err) {}
 };
 
-// صوت الواجهة الهادئ (أزرار)
 const playUIClick = () => playSound(150, 0.1, 'sine', 0.05);
-
-// صوت الإجابة الصحيحة (رسمي وفخم)
 const playCorrectSound = () => {
-    playSound(440, 0.2, 'sine', 0.08); // نغمة أولى
-    setTimeout(() => playSound(659.25, 0.3, 'sine', 0.05), 100); // نغمة ثانية متناغمة
+    playSound(440, 0.2, 'sine', 0.08);
+    setTimeout(() => playSound(659.25, 0.3, 'sine', 0.05), 100);
 };
-
-// صوت الإجابة الخاطئة (رسمي وعميق)
 const playWrongSound = () => playSound(110, 0.4, 'triangle', 0.08);
-
-// صوت اختيار الفقرة (ببل شيت)
 const playOptionSelect = () => playSound(300, 0.05, 'sine', 0.03);
-
 
 const TRANSLATIONS = {
 AR: {
@@ -261,7 +254,8 @@ attempts: "المحاولات", startBtn: "بدء الاختبار", passHeader:
 deleteBtn: "حذف", score: "النتيجة", noExams: "لا توجد اختبارات متاحة", noResults: "لا توجد نتائج لهذه المادة",
 chooseMode: "اختر وضع الاختبار", normalMode: "النظام الحالي (سؤال بسؤال)", bubbleMode: "نظام ببل شيت (ورقة كاملة)",
 bubbleLeft: "قسم الاختيارات", bubbleRight: "قسم صح وخطأ", submitBubble: "إرسال ورقة ببل شيت", questionsArea: "الأسئلة", bubbleArea: "OMR ANSWER SHEET",
-newExamAlert: "تم نشر امتحان جديد الآن!"
+newExamAlert: "تم نشر امتحان جديد الآن!",
+seatCol: "المقعد", codeCol: "الرمز", dateCol: "التاريخ", timeCol: "الوقت", nameCol: "الاسم", secondsCol: "الوقت (ث)"
 },
 KU: {
 basmalah: "بەناوی خودایەک کە ئێمەی دروستکردووە و بۆ لای ئەویش دەگەڕێینەوە",
@@ -276,7 +270,8 @@ attempts: "هەوڵەکان", startBtn: "دەستپێکردن", passHeader: "و�
 deleteBtn: "سڕینەوە", score: "نمرە", noExams: "تاقیکردنەوە بەردەست نییە", noResults: "هیچ ئەنجامێک بۆ ئەم بابەتە نییە",
 chooseMode: "جۆری تاقیکردنەوە هەڵبژێرە", normalMode: "سیستەمی ئێستا", bubbleMode: "سیستەمی بڵ شیت",
 bubbleLeft: "بەشی هەڵبژاردن", bubbleRight: "بەشی ڕاست و هەڵە", submitBubble: "ناردنی وەرەقەی بڵ شیت", questionsArea: "پرسیارەکان", bubbleArea: "OMR ANSWER SHEET",
-newExamAlert: "تاقیکردنەوەیەکی نوێ بڵاوکرایەوە!"
+newExamAlert: "تاقیکردنەوەیەکی نوێ بڵاوکرایەوە!",
+seatCol: "کورسی", codeCol: "کۆد", dateCol: "بەروار", timeCol: "کات", nameCol: "ناو", secondsCol: "کات (چرکە)"
 },
 EN: {
 basmalah: "In the name of God, Who created us and to Whom we return",
@@ -291,7 +286,8 @@ attempts: "Attempts", startBtn: "Start Exam", passHeader: "Password", delConfirm
 deleteBtn: "Delete", score: "Score", noExams: "No exams available", noResults: "No results for this subject",
 chooseMode: "Choose Exam Mode", normalMode: "Normal (One by one)", bubbleMode: "Bubble Sheet (Full Page)",
 bubbleLeft: "Multiple Choice", bubbleRight: "True / False", submitBubble: "Submit Bubble Sheet", questionsArea: "Questions", bubbleArea: "OMR ANSWER SHEET",
-newExamAlert: "New exam published now!"
+newExamAlert: "New exam published now!",
+seatCol: "Seat", codeCol: "Code", dateCol: "Date", timeCol: "Time", nameCol: "Name", secondsCol: "Time (s)"
 },
 TR: {
 basmalah: "Bizi yaratan ve O'na döneceğimiz Allah'ın adıyla",
@@ -306,7 +302,8 @@ attempts: "Denemeler", startBtn: "Sınava Başla", passHeader: "Şifre", delConf
 deleteBtn: "Sil", score: "Puan", noExams: "Mevcut sınav yok", noResults: "Bu ders için sonuç yok",
 chooseMode: "Sınav Modu Seç", normalMode: "Normal (Sırayla)", bubbleMode: "Optik Form (Tam Sayfa)",
 bubbleLeft: "Çoktan Seçmeli", bubbleRight: "Doğru / Yanlış", submitBubble: "Formu Gönder", questionsArea: "Sorular", bubbleArea: "OMR ANSWER SHEET",
-newExamAlert: "Yeni sınav yayınlandı!"
+newExamAlert: "Yeni sınav yayınlandı!",
+seatCol: "Koltuk", codeCol: "Kod", dateCol: "Tarih", timeCol: "Saat", nameCol: "İsim", secondsCol: "Süre (sn)"
 }
 };
 
@@ -320,7 +317,6 @@ const [view, setView] = useState('login');
 const [theme, setTheme] = useState('dark');
 const [authLoading, setAuthLoading] = useState(true);
 const [notification, setNotification] = useState(null);
-
 const T = TRANSLATIONS[lang] || TRANSLATIONS['AR'];
 
 useEffect(() => {
@@ -328,40 +324,47 @@ document.body.setAttribute('data-theme', theme);
 }, [theme]);
 
 useEffect(() => {
-    if (view !== 'login' && user) {
-        const q = window.FB.query(window.FB.collection(window.FB.db, "exams"), window.FB.orderBy("timestamp", "desc"));
-        let initialLoad = true;
-        const unsubscribe = window.FB.onSnapshot(q, (snap) => {
-            if (initialLoad) {
-                initialLoad = false;
-                return;
-            }
-            snap.docChanges().forEach((change) => {
-                if (change.type === "added") {
-                    const data = change.doc.data();
-                    if (data.authorRole === 'admin') {
-                        setNotification(T.newExamAlert);
-                        setTimeout(() => setNotification(null), 5000);
-                    }
+    if (view !== 'login' && user && window.FB) {
+        try {
+            const q = window.FB.query(window.FB.collection(window.FB.db, "exams"), window.FB.orderBy("timestamp", "desc"));
+            let initialLoad = true;
+            const unsubscribe = window.FB.onSnapshot(q, (snap) => {
+                if (initialLoad) {
+                    initialLoad = false;
+                    return;
                 }
-            });
-        });
-        return () => unsubscribe();
+                snap.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        const data = change.doc.data();
+                        if (data.authorRole === 'admin') {
+                            setNotification(T.newExamAlert);
+                            setTimeout(() => setNotification(null), 5000);
+                        }
+                    }
+                });
+            }, () => {});
+            return () => unsubscribe();
+        } catch (e) {}
     }
 }, [view, user, lang]);
 
 useEffect(() => {
-const unsubscribe = window.FB.onAuthStateChanged(window.FB.auth, (firebaseUser) => {
-const savedData = safeStorage.getItem('app_user_session');
-if (firebaseUser && savedData) {
-setUser(JSON.parse(savedData));
-setView('dashboard');
-} else if (!firebaseUser) {
-window.FB.signInAnonymously(window.FB.auth).catch(() => { });
-}
-authLoading && setAuthLoading(false);
-});
-return () => unsubscribe();
+    let unsubscribe = () => {};
+    if (window.FB && window.FB.auth) {
+        unsubscribe = window.FB.onAuthStateChanged(window.FB.auth, (firebaseUser) => {
+            const savedData = safeStorage.getItem('app_user_session');
+            if (firebaseUser && savedData) {
+                setUser(JSON.parse(savedData));
+                setView('dashboard');
+            } else if (!firebaseUser) {
+                window.FB.signInAnonymously(window.FB.auth).catch(() => { });
+            }
+            setAuthLoading(false);
+        });
+    } else {
+        setAuthLoading(false);
+    }
+    return () => unsubscribe();
 }, []);
 
 const handleLogin = useCallback((userData) => {
@@ -373,7 +376,7 @@ safeStorage.setItem('app_user_session', JSON.stringify(userData));
 
 const handleLogout = useCallback(() => {
 playUIClick();
-window.FB.auth.signOut();
+if (window.FB && window.FB.auth) window.FB.auth.signOut();
 safeStorage.removeItem('app_user_session');
 setUser(null);
 setView('login');
@@ -382,9 +385,9 @@ setView('login');
 if (authLoading) return null;
 
 return (
+<EngineResilienceGuard>
 <div className="min-h-screen p-4 flex flex-col items-center justify-center relative">
 {notification && <div className="notification-toast font-bold">🔔 {notification}</div>}
-
 {view === 'login' && <Login T={T} lang={lang} setLang={setLang} onLogin={handleLogin} setTheme={setTheme} theme={theme} />}
 {view !== 'login' && user && (
 <div className="w-full max-w-6xl space-y-8 animate-fade">
@@ -392,14 +395,12 @@ return (
 <div className="flex items-center gap-4">
 <h2 className="font-bold font-mono text-lg" style={{ color: 'var(--text-main)' }}>{user.name}</h2>
 </div>
-
 <div className="absolute left-1/2 -translate-x-1/2 top-10 flex gap-2">
 {['AR', 'KU', 'EN', 'TR'].map(l => (
 <button key={l} onClick={() => { playUIClick(); setLang(l); }} className={`px-4 py-2 rounded-xl font-bold text-xs border ${lang === l ?
 'bg-red-800 text-white border-red-600' : 'bg-slate-900 text-gray-500 border-slate-700'}`}>{l}</button>
 ))}
 </div>
-
 <div className="flex items-center gap-4">
 <button onClick={handleLogout} className="text-red-500 font-bold border border-red-900/50 px-6 py-2 rounded-xl text-sm hover:bg-red-950/30">
 {T.logout}
@@ -417,6 +418,7 @@ return (
 </div>
 )}
 </div>
+</EngineResilienceGuard>
 );
 };
 
@@ -489,7 +491,6 @@ return (
 'bg-red-800 text-white border-red-600' : 'bg-slate-900 text-gray-500 border-slate-700'}`}>{l}</button>
 ))}
 </div>
-
 <div className="card-glow rounded-[2rem] p-10 text-center mt-20">
 <p className="text-[#fbbf24] text-xl font-bold mb-6">{T.basmalah}</p>
 <h2 className="font-bold mb-2 text-2xl">{T.gate}</h2>
@@ -543,18 +544,23 @@ return (
 const MembersLog = ({ T, setView }) => {
 const [logs, setLogs] = useState([]);
 const [userPasswords, setUserPasswords] = useState({});
+
 useEffect(() => {
+if (!window.FB) return;
 const q = window.FB.query(window.FB.collection(window.FB.db, "member_logs"), window.FB.orderBy("timestamp", "desc"));
-const unsubLogs = window.FB.onSnapshot(q, (snap) => setLogs(snap.docs.map(d => ({ id: d.id, ...d.data() }))));
+const unsubLogs = window.FB.onSnapshot(q, (snap) => setLogs(snap.docs.map(d => ({ id: d.id, ...d.data() }))), () => {});
 const fetchUsers = async () => {
+try {
 const uSnap = await window.FB.getDocs(window.FB.collection(window.FB.db, "users"));
 const passMap = {};
 uSnap.forEach(doc => { passMap[doc.id] = doc.data().password; });
 setUserPasswords(passMap);
+} catch(e) {}
 };
 fetchUsers();
 return () => unsubLogs();
 }, []);
+
 return (
 <div className="card-glow rounded-3xl p-8 w-full overflow-hidden">
 <div className="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
@@ -563,7 +569,14 @@ return (
 </div>
 <div className="overflow-x-auto">
 <table className="w-full text-right">
-<thead><tr className="text-sm font-bold text-slate-500"><th className="p-4">المقعد</th><th className="p-4">الرمز</th><th className="p-4">التاريخ</th><th className="p-4">الوقت</th></tr></thead>
+<thead>
+<tr className="text-sm font-bold text-slate-500">
+<th className="p-4">{T.seatCol}</th>
+<th className="p-4">{T.codeCol}</th>
+<th className="p-4">{T.dateCol}</th>
+<th className="p-4">{T.timeCol}</th>
+</tr>
+</thead>
 <tbody>
 {logs.map(log => (
 <tr key={log.id} className="border-b border-slate-800/40">
@@ -584,6 +597,7 @@ const CreateExam = ({ T, user, setView }) => {
 const [sub, setSub] = useState('');
 const [raw, setRaw] = useState('');
 const [loading, setLoading] = useState(false);
+
 const publish = async () => {
 playUIClick();
 if (!sub || !raw) return;
@@ -595,7 +609,6 @@ let qText = lines[0];
 let opts = lines.slice(1)
 .map(l => l.replace('✅', '').trim())
 .filter(l => l !== "");
-
 let correctIndex = lines.slice(1).findIndex(l => l.includes('✅'));
 return { text: qText, options: opts, correct: correctIndex === -1 ? 0 : correctIndex };
 });
@@ -610,6 +623,7 @@ setView('dashboard');
 } catch (e) { }
 setLoading(false);
 };
+
 return (
 <div className="card-glow rounded-3xl p-8 max-w-2xl mx-auto">
 <h2 className="text-xl font-bold mb-6 border-b border-slate-800 pb-4">{T.menuCreate}</h2>
@@ -629,8 +643,9 @@ const [mode, setMode] = useState(null);
 const [exams, setExams] = useState([]);
 
 useEffect(() => {
+if (!window.FB) return;
 const q = window.FB.query(window.FB.collection(window.FB.db, "exams"), window.FB.orderBy("timestamp", "desc"));
-const unsub = window.FB.onSnapshot(q, (snap) => setExams(snap.docs.map(d => ({ id: d.id, ...d.data() }))));
+const unsub = window.FB.onSnapshot(q, (snap) => setExams(snap.docs.map(d => ({ id: d.id, ...d.data() }))), () => {});
 return () => unsub();
 }, []);
 
@@ -746,10 +761,8 @@ setDone(true);
 };
 
 const isAdminOrOwner = user.role === 'admin' || examData.author === user.name;
-
 if (done) return <div className="card-glow p-12 text-center rounded-[3rem] animate-fade"><h2 className="text-yellow-500 text-3xl font-bold mb-8">{T.examDone}</h2><div className="text-6xl font-black mb-10">{score} / {cleanQuestions.length}</div><button onClick={() => { playUIClick(); exit(); }} className="bg-blue-800 text-white px-12 py-4 rounded-2xl font-bold">{T.back}</button></div>;
 if (!current) return <div className="p-10 text-center">{T.noExams}</div>;
-
 return (
 <div className="w-full max-w-3xl mx-auto py-6 animate-fade">
 <div className="flex justify-between text-blue-400 font-bold mb-4"><span>{examData.subject}</span><span>{idx + 1} / {cleanQuestions.length}</span></div>
@@ -780,6 +793,7 @@ T.finishExam : T.nextQ}</button>}
 
 const BubbleExam = ({ T, user, exam, exit }) => {
 const [examData, setExamData] = useState(exam);
+const [selectedStage, setSelectedStage] = useState('3rd Stage');
 
 const cleanQuestions = useMemo(() => {
 return examData.questions.filter(q => q.text && q.text.trim() !== "" && q.options.length > 0).map(q => ({
@@ -795,7 +809,6 @@ const [start] = useState(Date.now());
 const [loading, setLoading] = useState(false);
 
 const isAdminOrOwner = user.role === 'admin' || examData.author === user.name;
-
 const removeQuestion = async (qIdx) => {
     playUIClick();
     if (!window.confirm(T.delConfirm)) return;
@@ -811,12 +824,19 @@ setLoading(true);
 let finalScore = 0;
 answers.forEach((ans, i) => { if (ans === cleanQuestions[i].correct) finalScore++; });
 const totalTimes = (Date.now() - start) / 1000;
-await window.FB.addDoc(window.FB.collection(window.FB.db, "classroom"), { subject: examData.subject, student: user.name, score: finalScore, total: cleanQuestions.length, totalTimes, timestamp: window.FB.serverTimestamp() });
+await window.FB.addDoc(window.FB.collection(window.FB.db, "classroom"), { 
+    subject: examData.subject, 
+    student: user.name, 
+    score: finalScore, 
+    total: cleanQuestions.length, 
+    stage: selectedStage,
+    totalTimes, 
+    timestamp: window.FB.serverTimestamp() 
+});
 setScore(finalScore); setDone(true); setLoading(false);
 };
 
 if (done) return <div className="card-glow p-12 text-center rounded-[3rem] animate-fade"><h2 className="text-yellow-500 text-3xl font-bold mb-8">{T.examDone}</h2><div className="text-6xl font-black mb-10">{score} / {cleanQuestions.length}</div><button onClick={() => { playUIClick(); exit(); }} className="bg-blue-800 text-white px-12 py-4 rounded-2xl font-bold">{T.back}</button></div>;
-
 return (
 <div className="animate-fade w-full max-w-4xl mx-auto py-6 space-y-8">
 <div className="card-glow rounded-3xl p-8 space-y-12">
@@ -829,7 +849,7 @@ return (
 <div key={idx} className="pb-8 border-b border-slate-800/50 last:border-0 relative">
 {isAdminOrOwner && (
     <button onClick={() => removeQuestion(idx)} className="absolute top-0 left-0 text-red-500 hover:text-red-400 text-xs bg-red-950/20 px-2 py-1 rounded">
-        حذف 🗑️
+        {T.deleteBtn} 🗑️
     </button>
 )}
 <h4 className="font-bold text-xl mb-6">
@@ -851,17 +871,31 @@ return (
 
 <div className="bubble-sheet-container">
 <div className="omr-header">
-<div className="flex flex-col gap-1">
-<span className="font-bold">STUDENT ID: {user.name}</span>
-<span className="text-[10px]">Medical Laboratory Analysis</span>
+<div className="flex flex-col gap-1 w-1/3">
+<div className="flex flex-col">
+    <span className="text-[10px] text-slate-500 font-bold">NAME / ID:</span>
+    <span className="font-bold text-sm text-black">{user.name}</span>
+</div>
+<div className="flex flex-col mt-1">
+    <span className="text-[10px] text-slate-500 font-bold">SUBJECT:</span>
+    <span className="font-bold text-sm text-blue-900">{examData.subject}</span>
+</div>
 </div>
 <div className="flex flex-col items-center gap-1">
 <span className="font-black text-lg">MIDTERM EXAM</span>
-<span className="text-[10px]">3rd Stage</span>
+<select 
+    value={selectedStage} 
+    onChange={e => setSelectedStage(e.target.value)}
+    className="border border-slate-400 rounded px-2 py-1 text-xs font-bold text-slate-800 bg-slate-50 cursor-pointer"
+>
+    <option value="1st Stage">1st Stage</option>
+    <option value="2nd Stage">2nd Stage</option>
+    <option value="3rd Stage">3rd Stage</option>
+    <option value="4th Stage">4th Stage</option>
+</select>
 </div>
 <div className="flex flex-col items-end gap-1">
-<span className="font-bold">SUBJECT: {examData.subject}</span>
-<span className="text-[10px]">Date: {new Date().toLocaleDateString()}</span>
+<span className="text-[10px]">{T.dateCol}: {new Date().toLocaleDateString()}</span>
 </div>
 </div>
 
@@ -887,7 +921,6 @@ return (
 ))}
 </div>
 </div>
-
 <div className="space-y-6 md:border-r-2 md:border-slate-300 md:pr-10">
 <h5 className="text-xs uppercase text-center text-slate-800 font-black border-b border-slate-400 pb-2 mb-4">{T.bubbleRight}</h5>
 <div className="grid grid-cols-1 gap-6">
@@ -915,7 +948,6 @@ F
 </div>
 </div>
 </div>
-
 <div className="mt-12 pt-8 border-t-2 border-slate-400">
 <button onClick={submit} disabled={loading || answers.includes(null)} className={`w-full py-5 rounded-2xl font-bold text-xl shadow-lg transition-none ${answers.includes(null) ?
 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-black text-white'}`}>
@@ -934,11 +966,12 @@ const [exams, setExams] = useState([]);
 const [activeSubject, setActiveSubject] = useState('');
 
 useEffect(() => {
+if (!window.FB) return;
 const qExams = window.FB.query(window.FB.collection(window.FB.db, "exams"), window.FB.orderBy("timestamp", "desc"));
 const unsubExams = window.FB.onSnapshot(qExams, (snap) => {
 const cur = snap.docs.map(d => ({ id: d.id, ...d.data() }));
 setExams(cur); if (cur.length > 0 && !activeSubject) setActiveSubject(cur[0].subject);
-});
+}, () => {});
 const qScores = window.FB.query(window.FB.collection(window.FB.db, "classroom"), window.FB.orderBy("score", "desc"));
 const unsubScores = window.FB.onSnapshot(qScores, (snap) => {
 const raw = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -950,7 +983,7 @@ attempts.set(key, (attempts.get(key) || 0) + 1);
 if (!filteredMap.has(key) || filteredMap.get(key).score < item.score) filteredMap.set(key, item);
 });
 setData(Array.from(filteredMap.values()).map(i => ({ ...i, realAttempts: attempts.get(`${i.student}_${i.subject}`) })));
-});
+}, () => {});
 return () => { unsubExams(); unsubScores(); };
 }, []);
 
@@ -967,7 +1000,7 @@ return (
 </div>
 <div className="overflow-x-auto">
 <table className="w-full text-right border-separate border-spacing-y-3">
-<thead><tr className="text-xs font-bold text-slate-500"><th className="px-4 py-2">#</th><th className="px-4 py-2">الاسم</th><th className="px-4 py-2">{T.score}</th><th className="px-4 py-2">{T.attempts}</th><th className="px-4 py-2">الوقت (ث)</th></tr></thead>
+<thead><tr className="text-xs font-bold text-slate-500"><th className="px-4 py-2">#</th><th className="px-4 py-2">{T.nameCol}</th><th className="px-4 py-2">{T.score}</th><th className="px-4 py-2">{T.attempts}</th><th className="px-4 py-2">{T.secondsCol}</th></tr></thead>
 <tbody>
 {filtered.map((item, i) => (
 <tr key={item.id} className={`${i <= 2 ? 'rank-gold' : 'rank-silver'} rounded-2xl`}>
@@ -985,9 +1018,8 @@ return (
 );
 };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 </script>
-
 </body>
 </html>
